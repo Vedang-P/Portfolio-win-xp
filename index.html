@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows XP Portfolio</title>
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/windows.css">
+    <link rel="stylesheet" href="css/taskbar.css">
+    <link rel="stylesheet" href="css/startmenu.css">
+</head>
+<body>
+    <div id="boot-screen">
+        <img src="assets/boot screen/boot_screen.gif" alt="Windows XP">
+    </div>
+
+    <div id="login-screen" class="hidden">
+        <div class="login-bg-orb"></div>
+        <div class="login-panel">
+            <div class="login-title">Welcome</div>
+            <div class="login-subtitle">To begin, click your user name</div>
+            <div class="login-tile">
+                <img src="assets/icons/Windows XP Icons/0120 - All Users.ico" alt="User">
+                <div>
+                    <div id="login-user-name" class="login-user-name">Vedang</div>
+                </div>
+            </div>
+            <button id="login-btn" class="login-button">Log On</button>
+        </div>
+    </div>
+
+    <div id="desktop" class="session-hidden">
+        <div id="desktop-icons"></div>
+        <div id="windows-container"></div>
+    </div>
+
+    <ul id="desktop-context-menu" class="desktop-context-menu">
+        <li data-action="refresh">Refresh</li>
+        <li data-action="show-desktop">Show Desktop</li>
+        <li data-action="about">Open About Me</li>
+        <li data-action="paint">Open Paint</li>
+        <li data-action="personalize">Properties</li>
+        <li data-action="toggle-sound">Mute Sounds</li>
+    </ul>
+
+    <div id="taskbar" class="session-hidden">
+        <div id="start-button">
+            <span class="start-icon"><img src="assets/icons/Windows XP Icons/0014 - Start Programs.ico" alt="Start"></span>
+            <span class="start-text">start</span>
+        </div>
+
+        <div id="quick-launch">
+            <button class="quick-launch-btn" data-action="show-desktop" title="Show Desktop">
+                <img src="assets/icons/Windows XP Icons/0080 - Desktop.ico" alt="Desktop">
+            </button>
+            <button class="quick-launch-btn" data-open-app="ie" title="Internet Explorer">
+                <img src="assets/icons/Windows XP Icons/0081 - Internet Explorer.ico" alt="IE">
+            </button>
+        </div>
+
+        <div id="taskbar-apps"></div>
+
+        <div id="system-tray">
+            <img class="tray-icon" src="assets/icons/Windows XP Icons/0019 - Network Neighborhood.ico" alt="Network" title="Network Connection">
+            <img class="tray-icon" data-tray="sound" src="assets/icons/Windows XP Icons/0173 - Volume.ico" alt="Volume" title="Volume">
+            <button id="clock" type="button"></button>
+        </div>
+    </div>
+
+    <div id="clock-popup" class="clock-popup hidden">
+        <div class="clock-popup-time" id="clock-popup-time"></div>
+        <div class="clock-popup-date" id="clock-popup-date"></div>
+        <div class="calendar-header">
+            <button type="button" id="calendar-prev" class="calendar-nav-btn">◀</button>
+            <div id="calendar-month-label"></div>
+            <button type="button" id="calendar-next" class="calendar-nav-btn">▶</button>
+        </div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+    </div>
+
+    <div id="start-menu">
+        <div class="start-menu-header">
+            <div class="user-avatar">
+                <img src="assets/icons/Windows XP Icons/0120 - All Users.ico" alt="Avatar">
+            </div>
+            <div class="user-name">Vedang</div>
+        </div>
+        <div class="start-menu-body">
+            <div class="start-menu-left">
+                <ul class="start-menu-items">
+                    <li data-app="about">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0199 - Notepad.ico" alt="About">
+                        <span class="menu-text">About Me</span>
+                    </li>
+                    <li data-app="projects">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0001 - Closed Folder.ico" alt="Projects">
+                        <span class="menu-text">Projects</span>
+                    </li>
+                    <li data-app="resume">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0115 - Word Doc.ico" alt="Resume">
+                        <span class="menu-text">Resume</span>
+                    </li>
+                    <li data-app="skills">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0100 - Utilities.ico" alt="Skills">
+                        <span class="menu-text">Skills</span>
+                    </li>
+                    <li data-app="contact">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0156 - Alt Email.ico" alt="Contact">
+                        <span class="menu-text">Contact</span>
+                    </li>
+                    <li data-app="paint">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0071 - Microsoft Paint.ico" alt="Paint">
+                        <span class="menu-text">Paint</span>
+                    </li>
+                    <li data-app="control">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0015 - Control Panel.ico" alt="Control Panel">
+                        <span class="menu-text">Control Panel</span>
+                    </li>
+                    <li data-app="cmd">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0088 - Command Prompt.ico" alt="Command Prompt">
+                        <span class="menu-text">Command Prompt</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="start-menu-right">
+                <ul class="start-menu-items">
+                    <li data-action="logoff">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0039 - Logoff.ico" alt="Log Off">
+                        <span class="menu-text">Log Off</span>
+                    </li>
+                    <li data-action="shutdown">
+                        <img class="menu-icon" src="assets/icons/Windows XP Icons/0147 - Energy.ico" alt="Shut Down">
+                        <span class="menu-text">Shut Down...</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="shutdown-screen">
+        <div class="shutdown-box">
+            <div class="shutdown-title" id="shutdown-title">Windows XP</div>
+            <div class="shutdown-message" id="shutdown-message">Windows is shutting down...</div>
+            <div class="shutdown-bar">
+                <div class="shutdown-bar-fill" id="shutdown-bar-fill"></div>
+            </div>
+            <button class="shutdown-power-btn" id="restart-btn">Power</button>
+        </div>
+    </div>
+
+    <script src="js/appsRegistry.js"></script>
+    <script src="js/soundManager.js"></script>
+    <script src="js/personalization.js"></script>
+    <script src="js/dragController.js"></script>
+    <script src="js/windowManager.js"></script>
+    <script src="js/contextMenu.js"></script>
+    <script src="js/taskbarController.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/bootScreen.js"></script>
+    <script src="js/sessionManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            SessionManager.init();
+        });
+    </script>
+</body>
+</html>

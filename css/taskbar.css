@@ -1,0 +1,355 @@
+/* WINDOWS XP CLASSIC TASKBAR */
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--taskbar-height);
+    background: var(--xp-taskbar-gradient);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    padding: 0 3px;
+}
+
+#start-button {
+    width: 160px;
+    height: 40px;
+    background: linear-gradient(180deg, #89d966 0%, #63b741 26%, #4f9d2f 60%, #3e7f21 100%);
+    border: 1px solid #2e5f1f;
+    border-right: none;
+    border-radius: 0 18px 18px 0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px 0 10px;
+    cursor: pointer;
+    margin: 3px 0;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.2), 1px 1px 0 rgba(0, 0, 0, 0.24);
+    position: relative;
+}
+
+#start-button::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    right: 10px;
+    height: 14px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
+#start-button::after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    top: -1px;
+    width: 6px;
+    height: calc(100% + 2px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0.1));
+    border-right: 1px solid rgba(255,255,255,0.35);
+    border-radius: 0 3px 3px 0;
+}
+
+#start-button:hover,
+#start-button.active {
+    background: linear-gradient(180deg, #98e375 0%, #72c750 26%, #5daf3b 60%, #458828 100%);
+}
+
+#start-button:active {
+    background: linear-gradient(180deg, #4a8c2e 0%, #3f7c26 100%);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.start-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.start-icon img {
+    width: 23px;
+    height: 23px;
+    display: block;
+}
+
+.start-text {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Comic Sans MS", Impact, sans-serif;
+    font-style: italic;
+    text-shadow: 1px 1px 1px #000, 0 0 4px rgba(255,255,255,0.2);
+    text-transform: lowercase;
+    letter-spacing: 0.3px;
+    z-index: 1;
+}
+
+#quick-launch {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0 7px;
+}
+
+.quick-launch-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.quick-launch-btn:hover {
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.quick-launch-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+#taskbar-apps {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    padding: 3px 6px;
+    overflow: hidden;
+}
+
+.taskbar-app {
+    height: 38px;
+    min-width: 180px;
+    max-width: 250px;
+    background: rgba(57, 128, 212, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.92);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 10px;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.taskbar-app:hover {
+    background: rgba(70, 143, 224, 0.92);
+}
+
+.taskbar-app.active {
+    background: rgba(25, 89, 180, 0.97);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.taskbar-app .app-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.taskbar-app .app-title {
+    color: #fff;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 1px #000;
+}
+
+#system-tray {
+    display: flex;
+    align-items: center;
+    height: calc(100% - 8px);
+    margin: 3px 0;
+    padding: 0 8px;
+    gap: 5px;
+    background: linear-gradient(180deg, rgba(68, 170, 235, 0.55), rgba(22, 77, 144, 0.65));
+    border-left: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.tray-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.tray-icon[data-tray="sound"] {
+    cursor: pointer;
+}
+
+.tray-icon[data-tray="sound"].muted {
+    opacity: 0.5;
+    filter: grayscale(0.8);
+}
+
+#clock {
+    color: #fff;
+    font-size: 15px;
+    padding: 0 8px;
+    text-shadow: 1px 1px 1px #000;
+    font-family: Tahoma, Arial, sans-serif;
+    border: none;
+    background: transparent !important;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    box-shadow: none;
+    line-height: 1;
+    cursor: pointer;
+    outline: none;
+    height: 100%;
+}
+
+#clock:hover,
+#clock:active {
+    background: transparent !important;
+    border: none !important;
+}
+
+#clock:focus {
+    outline: 1px dotted rgba(255, 255, 255, 0.8);
+    outline-offset: -2px;
+}
+
+.clock-popup {
+    position: fixed;
+    width: 244px;
+    background: #f2f6ff;
+    border: 1px solid #4d78c6;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.35);
+    padding: 8px;
+    z-index: 30000;
+}
+
+.clock-popup.hidden {
+    display: none;
+}
+
+.clock-popup.visible {
+    display: block;
+}
+
+.clock-popup-time {
+    font-size: 19px;
+    color: #184790;
+    font-weight: bold;
+}
+
+.clock-popup-date {
+    font-size: 11px;
+    color: #2f578f;
+    margin-bottom: 8px;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    color: #1c4a95;
+    font-weight: bold;
+}
+
+.calendar-nav-btn {
+    width: 22px;
+    height: 20px;
+    border: 1px solid #7b9ed4;
+    background: #fff;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.calendar-nav-btn:hover {
+    background: #dce9ff;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-size: 10px;
+    color: #2d4f80;
+    padding: 2px 0;
+    font-weight: bold;
+}
+
+.calendar-day {
+    text-align: center;
+    font-size: 11px;
+    color: #243f65;
+    padding: 4px 0;
+    border: 1px solid transparent;
+}
+
+.calendar-day.muted {
+    color: transparent;
+}
+
+.calendar-day.today {
+    border-color: #5f8fdf;
+    background: #e3eeff;
+    font-weight: bold;
+}
+
+@media (max-width: 760px) {
+    #start-button {
+        width: 106px;
+        height: 31px;
+        padding: 0 9px 0 7px;
+    }
+
+    .start-icon {
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+    }
+
+    .start-icon img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .start-text {
+        font-size: 14px;
+    }
+
+    #quick-launch {
+        display: none;
+    }
+
+    .taskbar-app {
+        min-width: 128px;
+        height: 31px;
+    }
+
+    .taskbar-app .app-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .taskbar-app .app-title {
+        font-size: 10px;
+    }
+
+    .tray-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    #clock {
+        padding: 0 4px;
+        font-size: 12px;
+    }
+}

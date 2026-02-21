@@ -1,0 +1,203 @@
+/* WINDOWS XP CLASSIC START MENU */
+#start-menu {
+    position: fixed;
+    bottom: var(--taskbar-height);
+    left: 0;
+    width: 404px;
+    background: #fff;
+    border: 2px solid #fff;
+    box-shadow: 2px -2px 8px rgba(0, 0, 0, 0.4);
+    z-index: 10001;
+    display: none;
+}
+
+#start-menu.visible {
+    display: block;
+}
+
+.start-menu-header {
+    height: 78px;
+    background: var(--xp-startmenu-header);
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 15px 12px;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #ccc, #999);
+    border: 2px solid #fff;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar img {
+    width: 32px;
+    height: 32px;
+}
+
+.user-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+    padding-bottom: 8px;
+}
+
+.start-menu-body {
+    display: flex;
+    background: #fff;
+    min-height: 320px;
+}
+
+.start-menu-left {
+    width: 238px;
+    padding: 6px 0;
+    background: #fff;
+}
+
+.start-menu-right {
+    width: 166px;
+    padding: 6px 0;
+    background: var(--xp-startmenu-side);
+    border-left: 1px solid var(--xp-startmenu-side-border);
+}
+
+.start-menu-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.start-menu-items li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 12px;
+    cursor: pointer;
+    color: #000;
+}
+
+.start-menu-items li:hover {
+    background: #316ac5;
+    color: #fff;
+}
+
+.menu-icon {
+    width: 34px;
+    height: 34px;
+    display: block;
+    flex-shrink: 0;
+}
+
+.menu-text {
+    font-size: 12px;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.start-menu-right .menu-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.start-menu-right .menu-text {
+    font-size: 11px;
+    color: #fff;
+}
+
+.start-menu-right .start-menu-items li:hover {
+    background: rgba(58, 127, 212, 0.8);
+}
+
+/* SHUTDOWN SCREEN */
+#shutdown-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+#shutdown-screen.visible {
+    display: flex;
+}
+
+.shutdown-box {
+    background: linear-gradient(to bottom, #245edb, #6ca4f0);
+    padding: 30px 50px;
+    border: 3px solid #fff;
+    text-align: center;
+}
+
+.shutdown-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #000;
+    margin-bottom: 20px;
+}
+
+.shutdown-message {
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.shutdown-bar {
+    width: 250px;
+    height: 20px;
+    background: #1a4a9e;
+    border: 2px solid #fff;
+}
+
+.shutdown-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #4da64d;
+    transition: width 0.5s;
+}
+
+.shutdown-power-btn {
+    display: none;
+    margin-top: 25px;
+    padding: 10px 25px;
+    background: #4da64d;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.shutdown-power-btn:hover {
+    background: #5dbd5d;
+}
+
+.shutdown-power-btn.visible {
+    display: inline-block;
+}
+
+@media (max-width: 700px) {
+    #start-menu {
+        width: min(360px, calc(100vw - 8px));
+    }
+
+    .start-menu-left {
+        width: 62%;
+    }
+
+    .start-menu-right {
+        width: 38%;
+    }
+}
