@@ -911,6 +911,10 @@ const WindowManager = {
             setTimeout(() => this.initNotepad(win, id), 0);
         }
 
+        if (app.id === 'contact') {
+            setTimeout(() => this.initContact(win), 0);
+        }
+
         if (app.isTerminal) {
             setTimeout(() => this.initTerminal(win, id), 0);
         }
@@ -2371,6 +2375,17 @@ X: x.com/vedangstwt`
 
         applyWordWrap();
         setTimeout(() => editor.focus(), 0);
+    },
+
+    initContact(win) {
+        const links = win.querySelectorAll('.contact-link');
+        if (!links.length) return;
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                SoundManager.play('click');
+            });
+        });
     },
 
     initTerminal(win, id) {

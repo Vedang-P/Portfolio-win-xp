@@ -522,40 +522,114 @@
     opacity: 0.82;
 }
 
-.contact-content {
-    padding: 12px;
-    line-height: 1.6;
-    font-size: 12px;
+.contact-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #ece9d8;
 }
 
-.contact-item {
+.contact-header {
+    padding: 12px 14px;
+    border-bottom: 1px solid #b8cbe8;
+    background: linear-gradient(180deg, #ebf5ff 0%, #dcecff 100%);
+}
+
+.contact-header-title {
+    font-size: 17px;
+    font-weight: bold;
+    color: #123f83;
+}
+
+.contact-header-subtitle {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #2d5d9f;
+}
+
+.contact-content {
+    padding: 10px;
+    line-height: 1.4;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: auto;
+}
+
+.contact-card {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 6px;
+    padding: 10px;
+    border: 1px solid #c8d7ef;
+    background: #f8fbff;
+    box-shadow: inset 0 1px 0 #fff;
 }
 
-.contact-item:hover {
-    background: #f0f0f0;
+.contact-card:hover {
+    border-color: #93b4e9;
+    background: #edf4ff;
 }
 
-.contact-item a {
-    color: #0000ee;
+.contact-card-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #c3d3eb;
+    background: linear-gradient(180deg, #ffffff 0%, #eaf2ff 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contact-card-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.contact-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-card-label {
+    font-size: 11px;
+    color: #325a95;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.contact-link {
+    color: #0c3f93;
     text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
 }
 
-.contact-item a:hover {
+.contact-link:hover {
     text-decoration: underline;
 }
 
-.contact-item .contact-icon-img {
-    width: 20px;
-    height: 20px;
+.contact-card-action {
+    min-width: 60px;
+    height: 24px;
+    border: 1px solid #7f9db9;
+    background: linear-gradient(180deg, #ffffff 0%, #dce9fb 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    color: #1f3d73;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-.contact-label {
-    min-width: 60px;
-    font-weight: bold;
+.contact-card-action:hover {
+    background: linear-gradient(180deg, #fffdf5 0%, #f4e5bb 100%);
+    text-decoration: none;
 }
 
 .xp-list {

@@ -58,9 +58,9 @@ Open the Contact app for direct links.`
             }
         ],
         contacts: [
-            { label: 'Email', value: 'hello@example.com', link: 'mailto:hello@example.com' },
-            { label: 'GitHub', value: 'github.com/username', link: 'https://github.com/username' },
-            { label: 'LinkedIn', value: 'linkedin.com/in/username', link: 'https://linkedin.com/in/username' }
+            { label: 'Email', value: 'vedangpandeyy@gmail.com', link: 'mailto:vedangpandeyy@gmail.com' },
+            { label: 'GitHub', value: 'github.com/vedang-p', link: 'https://github.com/vedang-p' },
+            { label: 'LinkedIn', value: 'linkedin.com/in/vedangpandey', link: 'https://www.linkedin.com/in/vedangpandey/' }
         ]
     },
 
@@ -100,8 +100,8 @@ Open the Contact app for direct links.`
             id: 'contact',
             name: 'Contact',
             icon: 'assets/icons/Windows XP Icons/0156 - Alt Email.ico',
-            width: 500,
-            height: 360
+            width: 560,
+            height: 430
         },
         control: {
             id: 'control',
@@ -369,18 +369,42 @@ Open the Contact app for direct links.`
         const iconMap = {
             email: 'assets/icons/Windows XP Icons/0156 - Alt Email.ico',
             github: 'assets/icons/Windows XP Icons/0081 - Internet Explorer.ico',
-            linkedin: 'assets/icons/Windows XP Icons/0199 - Notepad.ico'
+            linkedin: 'assets/icons/Windows XP Icons/0037 - User Accounts.ico'
         };
 
-        const html = this.profile.contacts.map(contact => `
-            <div class="contact-item">
-                <img class="contact-icon-img" src="${iconMap[contact.label.toLowerCase()] || this.apps.contact.icon}" alt="">
-                <span class="contact-label">${contact.label}:</span>
-                <a href="${contact.link}" target="_blank" rel="noreferrer">${contact.value}</a>
-            </div>
-        `).join('');
+        const html = this.profile.contacts.map(contact => {
+            const type = contact.label.toLowerCase();
+            const isMail = contact.link.startsWith('mailto:');
+            const actionText = isMail ? 'Compose' : 'Open';
+            const externalAttrs = isMail ? '' : 'target="_blank" rel="noreferrer noopener"';
 
-        return `<div class="contact-content">${html}</div>`;
+            return `
+                <article class="contact-card">
+                    <div class="contact-card-icon-wrap">
+                        <img class="contact-card-icon" src="${iconMap[type] || this.apps.contact.icon}" alt="">
+                    </div>
+                    <div class="contact-card-content">
+                        <div class="contact-card-label">${this.escapeHTML(contact.label)}</div>
+                        <a class="contact-link" href="${this.escapeHTML(contact.link)}" ${externalAttrs}>
+                            ${this.escapeHTML(contact.value)}
+                        </a>
+                    </div>
+                    <a class="contact-card-action contact-link" href="${this.escapeHTML(contact.link)}" ${externalAttrs}>
+                        ${actionText}
+                    </a>
+                </article>
+            `;
+        }).join('');
+
+        return `
+            <div class="contact-shell">
+                <div class="contact-header">
+                    <div class="contact-header-title">Reach Vedang</div>
+                    <div class="contact-header-subtitle">Choose email, GitHub, or LinkedIn.</div>
+                </div>
+                <div class="contact-content">${html}</div>
+            </div>
+        `;
     },
 
     generateControlPanelHTML() {
