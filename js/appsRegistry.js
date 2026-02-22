@@ -177,6 +177,15 @@ Open the Contact app for direct links.`
                 }
             ]
         },
+        mpc: {
+            id: 'mpc',
+            name: 'Media Player Classic',
+            icon: 'assets/icons/Windows XP Icons/0099 - Media Player 2.ico',
+            width: 900,
+            height: 620,
+            videoEmbedUrl: 'https://www.youtube.com/embed/nLiYLoLxBNs?autoplay=1&rel=0&modestbranding=1',
+            sourceUrl: 'https://www.youtube.com/watch?v=nLiYLoLxBNs'
+        },
         cmd: {
             id: 'cmd',
             name: 'Command Prompt',
@@ -248,6 +257,8 @@ Open the Contact app for direct links.`
                 return this.generateIEHTML(app);
             case 'spotify':
                 return this.generateSpotifyHTML(app);
+            case 'mpc':
+                return this.generateMediaPlayerClassicHTML(app);
             case 'comingsoon':
                 return this.generateComingSoonHTML();
             default:
@@ -947,6 +958,28 @@ Open the Contact app for direct links.`
                 </div>
 
                 <div class="spotify-status" data-spotify-status>Ready</div>
+            </div>
+        `;
+    },
+
+    generateMediaPlayerClassicHTML(app) {
+        return `
+            <div class="mpc-app">
+                <div class="mpc-toolbar">
+                    <span class="mpc-toolbar-label">Now Playing</span>
+                    <a class="mpc-open-link" href="${app.sourceUrl}" target="_blank" rel="noreferrer noopener">
+                        Open on YouTube
+                    </a>
+                </div>
+                <div class="mpc-frame-wrap">
+                    <iframe
+                        class="mpc-frame"
+                        src="${app.videoEmbedUrl}"
+                        title="Media Player Classic"
+                        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                        allowfullscreen
+                    ></iframe>
+                </div>
             </div>
         `;
     },
