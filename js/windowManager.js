@@ -887,6 +887,10 @@ const WindowManager = {
             setTimeout(() => this.initProjects(win), 0);
         }
 
+        if (app.id === 'mycomputer') {
+            setTimeout(() => this.initMyComputer(win), 0);
+        }
+
         if (app.id === 'mydocs') {
             setTimeout(() => this.initDocuments(win), 0);
         }
@@ -953,6 +957,25 @@ const WindowManager = {
                 if (link) {
                     window.open(link, '_blank');
                 }
+            });
+        });
+    },
+
+    initMyComputer(win) {
+        const links = win.querySelectorAll('[data-mc-open-url]');
+        if (!links.length) return;
+
+        links.forEach(linkEl => {
+            linkEl.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                const url = linkEl.dataset.mcOpenUrl || '';
+                if (!url) {
+                    SoundManager.play('stop');
+                    return;
+                }
+                SoundManager.play('open');
+                window.location.assign(url);
             });
         });
     },
@@ -1834,7 +1857,21 @@ X: x.com/vedangstwt`
         const app = AppsRegistry.getApp('spotify');
         if (!app || !Array.isArray(app.tracks) || !app.tracks.length) return;
 
-        const tracks = app.tracks;
+        const topSongsFeedUrl = 'https://itunes.apple.com/us/rss/topsongs/limit=100/json';
+        const spotifySearchBase = 'https://open.spotify.com/search/';
+        const escapeHtml = (value) => String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+
+        let tracks = app.tracks.map((track) => ({
+            title: track.title,
+            artist: track.artist,
+            src: track.src || '',
+            externalUrl: track.externalUrl || `${spotifySearchBase}${encodeURIComponent(`${track.title} ${track.artist}`)}`
+        }));
         const audio = root.querySelector('[data-spotify-audio]');
         const progress = root.querySelector('[data-spotify-progress]');
         const currentTimeEl = root.querySelector('[data-spotify-current]');
@@ -1842,20 +1879,21 @@ X: x.com/vedangstwt`
         const statusEl = root.querySelector('[data-spotify-status]');
         const nowTitleEl = root.querySelector('[data-spotify-now-title]');
         const nowArtistEl = root.querySelector('[data-spotify-now-artist]');
+        const trackListEl = root.querySelector('[data-spotify-track-list]');
         const spotifyVolumeSlider = root.querySelector('[data-spotify-volume]');
-        const systemVolumeSlider = root.querySelector('[data-system-volume]');
         const playBtn = root.querySelector('[data-spotify-action="play"]');
         const shuffleBtn = root.querySelector('[data-spotify-action="shuffle"]');
         const repeatBtn = root.querySelector('[data-spotify-action="repeat"]');
-        const trackButtons = Array.from(root.querySelectorAll('[data-spotify-track-index]'));
 
-        if (!audio || !progress || !currentTimeEl || !durationEl || !statusEl || !nowTitleEl || !nowArtistEl || !playBtn) {
+        if (!audio || !progress || !currentTimeEl || !durationEl || !statusEl || !nowTitleEl || !nowArtistEl || !trackListEl || !playBtn) {
             return;
         }
 
         let currentIndex = 0;
         let shuffle = false;
         let repeat = false;
+        let loadToken = 0;
+        const previewCache = new Map();
 
         const formatTime = (seconds) => {
             if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
@@ -1869,8 +1907,22 @@ X: x.com/vedangstwt`
             statusEl.textContent = text;
         };
 
+        const renderTrackList = () => {
+            trackListEl.innerHTML = tracks.map((track, index) => `
+                <button
+                    type="button"
+                    class="spotify-track-btn ${index === currentIndex ? 'active' : ''}"
+                    data-spotify-track-index="${index}"
+                    title="${escapeHtml(`${track.title} - ${track.artist}`)}"
+                >
+                    <span class="spotify-track-title">${escapeHtml(track.title)}</span>
+                    <span class="spotify-track-artist">${escapeHtml(track.artist)}</span>
+                </button>
+            `).join('');
+        };
+
         const syncTrackSelection = () => {
-            trackButtons.forEach((button, index) => {
+            trackListEl.querySelectorAll('[data-spotify-track-index]').forEach((button, index) => {
                 button.classList.toggle('active', index === currentIndex);
             });
         };
@@ -1899,15 +1951,71 @@ X: x.com/vedangstwt`
             durationEl.textContent = formatTime(duration);
         };
 
-        const loadTrack = (index, autoplay = false) => {
+        const setNowPlaying = (track) => {
+            nowTitleEl.textContent = track ? track.title : 'No track loaded';
+            nowArtistEl.textContent = track ? track.artist : '';
+        };
+
+        const lookupPreviewUrl = async (track) => {
+            if (!track) return '';
+            if (track.src) return track.src;
+
+            const cacheKey = `${track.title}::${track.artist}`;
+            if (previewCache.has(cacheKey)) {
+                const cached = previewCache.get(cacheKey) || '';
+                track.src = cached;
+                return cached;
+            }
+
+            try {
+                const term = encodeURIComponent(`${track.title} ${track.artist}`);
+                const response = await fetch(`https://itunes.apple.com/search?term=${term}&entity=song&limit=1`);
+                if (!response.ok) throw new Error(`Preview lookup failed: ${response.status}`);
+                const payload = await response.json();
+                const preview = payload?.results?.[0]?.previewUrl || '';
+                previewCache.set(cacheKey, preview);
+                track.src = preview;
+                return preview;
+            } catch (error) {
+                previewCache.set(cacheKey, '');
+                return '';
+            }
+        };
+
+        const loadTrack = async (index, autoplay = false) => {
+            if (!tracks.length) {
+                setNowPlaying(null);
+                setStatus('No tracks available.');
+                return;
+            }
+
+            const token = ++loadToken;
             currentIndex = (index + tracks.length) % tracks.length;
             const track = tracks[currentIndex];
-            audio.src = track.src;
-            nowTitleEl.textContent = track.title;
-            nowArtistEl.textContent = track.artist;
-            setStatus(`Loaded: ${track.title} - ${track.artist}`);
+            setNowPlaying(track);
+            setStatus(`Loading: ${track.title} - ${track.artist}`);
             syncTrackSelection();
             syncProgress();
+
+            let previewUrl = track.src || '';
+            if (!previewUrl) {
+                previewUrl = await lookupPreviewUrl(track);
+            }
+
+            if (token !== loadToken) return;
+
+            if (!previewUrl) {
+                audio.pause();
+                audio.removeAttribute('src');
+                audio.load();
+                syncPlayButton();
+                setStatus(`Preview unavailable for ${track.title}. Use Open in Browser.`);
+                return;
+            }
+
+            audio.src = previewUrl;
+            audio.load();
+            setStatus(`Loaded: ${track.title} - ${track.artist}`);
 
             if (autoplay) {
                 const playPromise = audio.play();
@@ -1920,21 +2028,23 @@ X: x.com/vedangstwt`
         };
 
         const playNext = () => {
+            if (!tracks.length) return;
             if (shuffle) {
                 const randomIndex = Math.floor(Math.random() * tracks.length);
-                loadTrack(randomIndex, true);
+                void loadTrack(randomIndex, true);
                 return;
             }
-            loadTrack(currentIndex + 1, true);
+            void loadTrack(currentIndex + 1, true);
         };
 
         const playPrev = () => {
+            if (!tracks.length) return;
             if (audio.currentTime > 3) {
                 audio.currentTime = 0;
                 syncProgress();
                 return;
             }
-            loadTrack(currentIndex - 1, true);
+            void loadTrack(currentIndex - 1, true);
         };
 
         root.querySelectorAll('[data-spotify-action]').forEach(button => {
@@ -1944,7 +2054,7 @@ X: x.com/vedangstwt`
                 if (action === 'play') {
                     if (audio.paused) {
                         if (!audio.src) {
-                            loadTrack(currentIndex, true);
+                            void loadTrack(currentIndex, true);
                         } else {
                             audio.play().catch(() => {
                                 setStatus('Playback blocked until user interaction.');
@@ -1979,16 +2089,17 @@ X: x.com/vedangstwt`
             });
         });
 
-        trackButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const index = Number.parseInt(button.dataset.spotifyTrackIndex, 10);
-                if (Number.isFinite(index)) {
-                    loadTrack(index, true);
-                }
-            });
+        trackListEl.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-spotify-track-index]');
+            if (!button) return;
+            const index = Number.parseInt(button.dataset.spotifyTrackIndex, 10);
+            if (Number.isFinite(index)) {
+                void loadTrack(index, true);
+            }
         });
 
         progress.addEventListener('input', () => {
+            if (!audio.src) return;
             const nextTime = Number.parseFloat(progress.value);
             if (Number.isFinite(nextTime)) {
                 audio.currentTime = nextTime;
@@ -2007,20 +2118,14 @@ X: x.com/vedangstwt`
             audio.volume = 0.8;
         }
 
-        if (systemVolumeSlider) {
-            systemVolumeSlider.value = String(Math.round(SoundManager.getMasterVolume() * 100));
-            systemVolumeSlider.addEventListener('input', () => {
-                const volume = Number.parseInt(systemVolumeSlider.value, 10) / 100;
-                SoundManager.setMasterVolume(volume);
-                setStatus(`Website volume: ${Math.round(Math.max(0, Math.min(1, volume)) * 100)}%`);
-            });
-        }
-
         audio.addEventListener('loadedmetadata', syncProgress);
         audio.addEventListener('timeupdate', syncProgress);
         audio.addEventListener('play', () => {
             syncPlayButton();
-            setStatus(`Playing: ${tracks[currentIndex].title}`);
+            const track = tracks[currentIndex];
+            if (track) {
+                setStatus(`Playing: ${track.title}`);
+            }
         });
         audio.addEventListener('pause', () => {
             syncPlayButton();
@@ -2040,9 +2145,54 @@ X: x.com/vedangstwt`
             setStatus('Track failed to load. Please try another track.');
         });
 
+        const fetchTopSongs = async () => {
+            setStatus('Loading Top Songs list...');
+
+            try {
+                const response = await fetch(topSongsFeedUrl, { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Top Songs request failed: ${response.status}`);
+                }
+
+                const payload = await response.json();
+                const entries = payload?.feed?.entry || [];
+                const topTracks = entries
+                    .map((entry) => {
+                        const title = entry?.['im:name']?.label?.trim() || '';
+                        const artist = entry?.['im:artist']?.label?.trim() || 'Unknown Artist';
+                        if (!title) return null;
+                        return {
+                            title,
+                            artist,
+                            src: '',
+                            externalUrl: `${spotifySearchBase}${encodeURIComponent(`${title} ${artist}`)}`
+                        };
+                    })
+                    .filter(Boolean);
+
+                if (!topTracks.length) {
+                    throw new Error('No tracks in Top Songs response');
+                }
+
+                if (!document.body.contains(root)) return;
+
+                tracks = topTracks;
+                currentIndex = 0;
+                renderTrackList();
+                syncTrackSelection();
+                await loadTrack(0, false);
+                setStatus(`Top Songs loaded (${tracks.length} tracks).`);
+            } catch (error) {
+                if (!document.body.contains(root)) return;
+                setStatus('Could not fetch Top Songs. Using fallback list.');
+            }
+        };
+
+        renderTrackList();
         syncToggleButtons();
         syncPlayButton();
-        loadTrack(0, false);
+        void loadTrack(0, false);
+        void fetchTopSongs();
     },
 
     initRecycleBin(win) {

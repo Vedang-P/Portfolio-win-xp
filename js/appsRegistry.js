@@ -655,11 +655,11 @@ Open the Contact app for direct links.`
                                     <img src="assets/icons/Windows XP Icons/0018 - My Computer.ico" alt="">
                                     <span>My Computer</span>
                                 </li>
-                                <li>
+                                <li data-mc-open-url="https://www.instagram.com/vedangggwtf">
                                     <img src="assets/icons/Windows XP Icons/0003 - My Pictures.ico" alt="">
                                     <span>My Pictures</span>
                                 </li>
-                                <li>
+                                <li data-mc-open-url="https://open.spotify.com/user/31fjvfuoan2mv3hyept33ffzsbeq">
                                     <img src="assets/icons/Windows XP Icons/0004 - My Music.ico" alt="">
                                     <span>My Music</span>
                                 </li>
@@ -675,11 +675,11 @@ Open the Contact app for direct links.`
                         <div class="mc-content-group">
                             <h3>Files Stored on This Computer</h3>
                             <div class="mc-items">
-                                <div class="mc-item">
+                                <div class="mc-item" data-mc-open-url="https://open.spotify.com/user/31fjvfuoan2mv3hyept33ffzsbeq">
                                     <img src="assets/icons/Windows XP Icons/0004 - My Music.ico" alt="">
                                     <span>My Music</span>
                                 </div>
-                                <div class="mc-item">
+                                <div class="mc-item" data-mc-open-url="https://www.instagram.com/vedangggwtf">
                                     <img src="assets/icons/Windows XP Icons/0003 - My Pictures.ico" alt="">
                                     <span>My Pictures</span>
                                 </div>
@@ -763,8 +763,8 @@ Open the Contact app for direct links.`
 
                 <div class="spotify-layout">
                     <aside class="spotify-sidebar">
-                        <div class="spotify-sidebar-title">Your Tracks</div>
-                        <div class="spotify-track-list">
+                        <div class="spotify-sidebar-title">Top Songs</div>
+                        <div class="spotify-track-list" data-spotify-track-list>
                             ${trackItems}
                         </div>
                     </aside>
@@ -796,10 +796,6 @@ Open the Contact app for direct links.`
                             <label>
                                 <span>Spotify Volume</span>
                                 <input type="range" min="0" max="100" value="80" data-spotify-volume>
-                            </label>
-                            <label>
-                                <span>Website Volume</span>
-                                <input type="range" min="0" max="100" value="${Math.round(SoundManager.getMasterVolume() * 100)}" data-system-volume>
                             </label>
                         </div>
 
