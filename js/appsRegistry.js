@@ -596,22 +596,22 @@ Open the Contact app for direct links.`
                 <div class="paint-workspace">
                     <aside class="paint-toolbox">
                         <button type="button" class="paint-tool-btn active" data-paint-tool="brush" title="Brush">
-                            <span class="paint-tool-glyph">Br</span>
+                            <span class="paint-tool-glyph" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="paint-tool-btn" data-paint-tool="pencil" title="Pencil">
-                            <span class="paint-tool-glyph">Pe</span>
+                            <span class="paint-tool-glyph" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="paint-tool-btn" data-paint-tool="eraser" title="Eraser">
-                            <span class="paint-tool-glyph">Er</span>
+                            <span class="paint-tool-glyph" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="paint-tool-btn" data-paint-tool="line" title="Line">
-                            <span class="paint-tool-glyph">Li</span>
+                            <span class="paint-tool-glyph" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="paint-tool-btn" data-paint-tool="rect" title="Rectangle">
-                            <span class="paint-tool-glyph">Rc</span>
+                            <span class="paint-tool-glyph" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="paint-tool-btn" data-paint-tool="ellipse" title="Ellipse">
-                            <span class="paint-tool-glyph">El</span>
+                            <span class="paint-tool-glyph" aria-hidden="true"></span>
                         </button>
                     </aside>
 

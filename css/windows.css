@@ -2285,11 +2285,58 @@
 }
 
 .paint-tool-glyph {
-    font-family: Tahoma, Arial, sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    color: #1f2b3a;
-    line-height: 1;
+    display: none;
+}
+
+.paint-tool-btn::before {
+    content: "";
+    display: block;
+    position: relative;
+}
+
+.paint-tool-btn[data-paint-tool="brush"]::before {
+    width: 4px;
+    height: 13px;
+    background: #233b5f;
+    border-radius: 2px;
+    transform: rotate(-30deg);
+}
+
+.paint-tool-btn[data-paint-tool="pencil"]::before {
+    width: 3px;
+    height: 13px;
+    background: #2f2f2f;
+    border-radius: 1px;
+    transform: rotate(-26deg);
+}
+
+.paint-tool-btn[data-paint-tool="eraser"]::before {
+    width: 12px;
+    height: 8px;
+    background: #f3d5cb;
+    border: 1px solid #9d7f77;
+}
+
+.paint-tool-btn[data-paint-tool="line"]::before {
+    width: 12px;
+    height: 2px;
+    background: #1f2b3a;
+    transform: rotate(-30deg);
+}
+
+.paint-tool-btn[data-paint-tool="rect"]::before {
+    width: 11px;
+    height: 8px;
+    border: 2px solid #1f2b3a;
+    background: transparent;
+}
+
+.paint-tool-btn[data-paint-tool="ellipse"]::before {
+    width: 11px;
+    height: 8px;
+    border: 2px solid #1f2b3a;
+    border-radius: 50%;
+    background: transparent;
 }
 
 .paint-btn {
