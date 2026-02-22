@@ -229,6 +229,7 @@ Open the Contact app for direct links.`
             { appId: 'mycomputer', name: 'My Computer', icon: this.apps.mycomputer.icon },
             { appId: 'ie', name: 'Internet Explorer', icon: this.apps.ie.icon },
             { appId: 'spotify', name: 'Spotify', icon: this.apps.spotify.icon },
+            { appId: 'mpc', name: 'Media Player Classic', icon: this.apps.mpc.icon },
             { appId: 'projects', name: 'Projects', icon: this.apps.projects.icon },
             { appId: 'about', name: 'Notepad', icon: this.apps.about.icon },
             { appId: 'resume', name: 'Resume', icon: this.apps.resume.icon },
