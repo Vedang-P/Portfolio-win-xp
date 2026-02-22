@@ -47,7 +47,7 @@ The project reproduces a full interactive desktop shell experience, including bo
 Run through a local web server (do not open with `file://`).
 
 ```bash
-cd /Users/vedang/Desktop/personal-website
+cd /Users/your-path
 python3 -m http.server 5500
 ```
 
@@ -56,7 +56,7 @@ Open `http://localhost:5500`.
 Alternative:
 
 ```bash
-cd /Users/vedang/Desktop/personal-website
+cd /Users/your-path
 npx serve .
 ```
 
