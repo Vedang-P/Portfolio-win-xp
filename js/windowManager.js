@@ -818,7 +818,7 @@ const WindowManager = {
 
     open(appId) {
         if (appId === 'resume') {
-            window.location.assign('https://drive.google.com/file/d/11FwOpNWYdeqgq1Qvu_1DWlvqXRDnmrpr/view?usp=sharing');
+            window.location.assign('https://x.com/vedangstwt'); //lol
             return;
         }
 
